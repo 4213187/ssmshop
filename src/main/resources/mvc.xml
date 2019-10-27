@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+    <!-- 配置注解扫描 -->
+    <context:component-scan base-package="cn.bikan8.controller"/>
+    <context:annotation-config/>
+
+    <!-- 支持上传文件 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
+<!--    &lt;!&ndash; 拦截器的配置 &ndash;&gt;-->
+<!--    <mvc:interceptors>-->
+
+<!--        <mvc:interceptor>-->
+<!--            &lt;!&ndash; /**：包括路径及其子路径-->
+<!--                如果是/admin/*-拦截的是/admin/add,/admin/list,/admin/user/add不会被拦截-->
+<!--                如果是/**-以上所有均被拦截-->
+<!--            &ndash;&gt;-->
+
+<!--            <mvc:mapping path="/**"/>-->
+<!--            <bean class="cn.bikan8.Interceptor.LoginInterceptor"></bean>-->
+<!--        </mvc:interceptor>-->
+
+
+<!--    </mvc:interceptors>-->
+
+
+    <!-- 配置Json转换器 -->
+    <bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/plain;charset=utf-8</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="stringConverter"/>
+                <ref bean="jsonConverter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--     配置渲染器 -->
+    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <!-- 结果视图的前缀 -->
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <!-- 结果视图的后缀 -->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+</beans>
