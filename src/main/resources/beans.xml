@@ -2,9 +2,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:cache="http://www.springframework.org/schema/cache"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xsi:schemaLocation="http://www.springframework.org/schema/cache
+		http://www.springframework.org/schema/cache/spring-cache-4.0.xsd
+	http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd
@@ -18,7 +21,12 @@
     <!-- 使用.properties文件 -->
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:db.properties"/>
+        <property name="locations">
+            <list>
+                <value>classpath:db.properties</value>
+                <value>classpath:redis.properties</value>
+            </list>
+        </property>
     </bean>
 
     <!-- 使用dbcp中的DataSource -->
@@ -58,22 +66,80 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
+    <!-- 配置JedisPoolConfig连接池 -->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="100" />
+        <property name="minIdle" value="0" />
+        <property name="maxWaitMillis" value="-1" />
+        <!-- <property name="maxActive" value="300"/>  -->
+        <property name="testOnBorrow" value="true"/>
+    </bean>
+
+    <!-- 配置jedis连接工厂 -->
+    <bean id="connectionFactory"
+          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="poolConfig" ref="poolConfig" />
+        <property name="hostName" value="${spring.redis.host}" />
+        <property name="port" value="${spring.redis.port}"/>
+        <property name="password" value="${spring.redis.password}"/>
+        <property name="database" value="${spring.redis.database}"/>
+        <property name="timeout" value="${spring.redis.timeout}"/>
+    </bean>
+    <!-- 配置RedisTemplate -->
+    <bean id="redisTemplate"
+          class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <!-- String -->
+        <property name="keySerializer">
+            <bean
+                    class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="valueSerializer">
+            <bean
+                    class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+        </property>
+
+    </bean>
+    <!--
+        定义缓存管理器redisCacheManager。
+        注意：cache-manager默认值是cacheManager,你的缓存管理器id要是命名是cacheManager，这里可以省略
+        1.使用注解驱动
+    -->
+    <cache:annotation-driven cache-manager="redisCacheManager"/>
+    <!-- 2.定义缓存管理器 -->
+    <bean id="redisCacheManager"
+          class="org.springframework.data.redis.cache.RedisCacheManager">
+        <!-- 通过构造方法注入redisTemplate -->
+        <constructor-arg index="0" ref="redisTemplate"/>
+        <!-- 定义超时时间，单位秒 -->
+        <property name="defaultExpiration" value="5000"></property>
+        <!-- 设置缓存器名称 -->
+        <property name="cacheNames">
+            <list>
+                <value>redisCacheManager</value>
+            </list>
+        </property>
+    </bean>
+
 
     <!-- 由Spring容器生成被代理类和切面 -->
 
     <bean id="log" class="cn.bikan8.log.Log"></bean>
     <bean id="afterlog" class="cn.bikan8.log.AfterLog"></bean>
 
+
     <!-- aop配置 -->
     <aop:config>
         <!-- 配置切入点 -->
         <aop:pointcut expression="execution(* cn.bikan8.service.impl.*.*(..))" id="pointcut1"/>
+
         <!--
             advice-ref:配置哪个公共业务
             pointcut-ref：配置哪个切入点
         -->
         <aop:advisor advice-ref="log" pointcut-ref="pointcut1"/>
         <aop:advisor advice-ref="afterlog" pointcut-ref="pointcut1"/>
+
 
     </aop:config>
 

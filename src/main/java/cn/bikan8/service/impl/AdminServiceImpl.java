@@ -6,6 +6,7 @@ import cn.bikan8.service.AdminService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,6 +53,7 @@ public class AdminServiceImpl implements AdminService {
     AdminMapper adminMapper;
 
     @Override
+    @Cacheable(value="redisCacheManager",key="'findAll'")
     public List<Admin> findAll(int grade) {
         return adminMapper.findAll(grade);
     }
