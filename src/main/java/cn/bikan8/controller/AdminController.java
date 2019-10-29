@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.annotation.Resource;
+
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -53,12 +53,15 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+
     @RequestMapping("/find")
     public void findAll() {
 
        List<Admin> admins= adminService.findAll(2);
-
-        System.out.println(admins);
+      for (int i =0;i<admins.size();i++){
+          System.out.println(admins.get(i).getAname());
+          System.out.println(admins.get(i));
+      }
     }
 
 

@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.bikan8.mapper.AdminMapper">
    <select id="findAll" parameterType="int" resultType="Admin" >
-    select  id,aname,apwd,disabled,grade from t_admin where grade > #{grade}
+    select  id,aname,apwd,disabled,grade from t_admin where grade >= #{grade}
    </select>
 
 

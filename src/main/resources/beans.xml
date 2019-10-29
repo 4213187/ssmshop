@@ -35,30 +35,29 @@
     <!-- 通过Spring加载mybatis -->
     <bean id="sqlSessionFactory"
           class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="configLocation"
-                  value="classpath:mybatis-config.xml" />
+        <property name="dataSource" ref="dataSource"/>
+
+        <!-- 加载mapper文件夹下的所有Mapper文件 -->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <!--        取别名-->
+        <property name="typeAliasesPackage" value="cn.bikan8.entity"></property>
     </bean>
 
+
+    <!-- 配置映射接口通过sqlSessionFactory创建sqlSession -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="cn.bikan8.mapper"/>
+        <property name="sqlSessionFactoryBeanName"
+                  value="sqlSessionFactory"></property>
+    </bean>
 
     <!-- 声明式事务配置 -->
     <!-- 配置事务管理器 -->
     <bean id="transactionManager"
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="dataSource"/>
     </bean>
-<!--    &lt;!&ndash; 配置事务通知 &ndash;&gt;-->
-<!--    <tx:advice id="txAdvice"-->
-<!--               transaction-manager="transactionManager">-->
-<!--        <tx:attributes>-->
-<!--            &lt;!&ndash; 配置哪些方法使用何种事务，配置事务的传播特性 &ndash;&gt;-->
-<!--            <tx:method name="add" propagation="REQUIRED" />-->
-<!--            <tx:method name="insert*" propagation="REQUIRED" />-->
-<!--            <tx:method name="delete" propagation="REQUIRED" />-->
-<!--            <tx:method name="update" propagation="REQUIRED" />-->
-<!--            <tx:method name="myMethod" read-only="true" />-->
-<!--        </tx:attributes>-->
-<!--    </tx:advice>-->
+
 
     <!-- 由Spring容器生成被代理类和切面 -->
 
@@ -69,22 +68,20 @@
     <aop:config>
         <!-- 配置切入点 -->
         <aop:pointcut expression="execution(* cn.bikan8.service.impl.*.*(..))" id="pointcut1"/>
-        <aop:pointcut expression="execution(* cn.bikan8.mapper.impl.*.*(..))" id="pointcut2"/>
         <!--
             advice-ref:配置哪个公共业务
             pointcut-ref：配置哪个切入点
         -->
         <aop:advisor advice-ref="log" pointcut-ref="pointcut1"/>
         <aop:advisor advice-ref="afterlog" pointcut-ref="pointcut1"/>
-        <aop:advisor advice-ref="log" pointcut-ref="pointcut2"/>
-        <aop:advisor advice-ref="afterlog" pointcut-ref="pointcut2"/>
+
     </aop:config>
 
     <!-- 配置注解 -->
     <context:component-scan
-            base-package="cn.bikan8.*" />
+            base-package="cn.bikan8.*"/>
 
-    <context:annotation-config />
+    <context:annotation-config/>
     <!-- 事务注解 -->
     <tx:annotation-driven/>
 
