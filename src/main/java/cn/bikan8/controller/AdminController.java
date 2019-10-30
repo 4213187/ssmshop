@@ -1,13 +1,19 @@
 package cn.bikan8.controller;
 
 import cn.bikan8.entity.Admin;
+import cn.bikan8.entity.AdminLog;
 import cn.bikan8.service.AdminService;
 import cn.bikan8.service.impl.AdminServiceImpl;
+import cn.bikan8.util.IpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -48,20 +54,28 @@ import java.util.concurrent.locks.ReentrantLock;
                    不见满街漂亮妹，哪个归得程序员？
 */
 
-@Controller
-public class AdminController {
+@Controller()
+public class AdminController  {
     @Autowired
     private AdminService adminService;
 
 
-    @RequestMapping("/find")
-    public void findAll() {
+    @RequestMapping("/admin/admin.login")
+    public String login(String index, String aname,String apwd,ModelMap map, HttpServletRequest request) {
 
-       List<Admin> admins= adminService.findAll(2);
-      for (int i =0;i<admins.size();i++){
-          System.out.println(admins.get(i).getAname());
-          System.out.println(admins.get(i));
-      }
+        Admin admin = adminService.login(aname, apwd,request);
+        if (admin != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("admin", admin);
+            return "redirect:index.jsp";
+        } else {
+           map.addAttribute("msg", "登陆失败");
+            return"login" + index + ".jsp";
+        }
+    }
+    @RequestMapping("/admin.findAll")
+    public void findAll(){
+        adminService.findAll(2);
     }
 
 

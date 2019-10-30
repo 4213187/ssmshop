@@ -1,54 +1,36 @@
 package cn.bikan8.service;
 
-import cn.bikan8.entity.Admin;
-import cn.bikan8.mapper.AdminMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import cn.bikan8.entity.Admin;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * @author 小浩
- * @date 2019/10/24 15:54
+ * @author lenovo
  */
-/*
-                             _ooOoo_
-                            o8888888o
-                            88" . "88
-                            (| -_- |)
-                            O\  =  /O
-                         ____/`---'\____
-                       .'  \\|     |//  `.
-                      /  \\|||  :  |||//  \
-                     /  _||||| -:- |||||-  \
-                     |   | \\\  -  /// |   |
-                     | \_|  ''\---/''  |   |
-                     \  .-\__  `-`  ___/-. /
-                   ___`. .'  /--.--\  `. . __
-                ."" '<  `.___\_<|>_/___.'  >'"".
-               | | :  `- \`.;`\ _ /`;.`/ - ` : | |
-               \  \ `-.   \_ __\ /__ _/   .-` /  /
-          ======`-.____`-.___\_____/___.-`____.-'======
-                             `=---='
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                     佛祖保佑        永无BUG
-            佛曰:
-                   写字楼里写字间，写字间里程序员；
-                   程序人员写程序，又拿程序换酒钱。
-                   酒醒只在网上坐，酒醉还来网下眠；
-                   酒醉酒醒日复日，网上网下年复年。
-                   但愿老死电脑间，不愿鞠躬老板前；
-                   奔驰宝马贵者趣，公交自行程序员。
-                   别人笑我忒疯癫，我笑自己命太贱；
-                   不见满街漂亮妹，哪个归得程序员？
-*/
-
-
 public interface AdminService {
+    /**
+     * 校验管理员账号密码是否正确
+     * @param aname 管理员账号
+     * @param apwd  管理员密码
+     * @param request 封装登陆日志 ip属性需要用到
+     * @return 管理员
+     */
+    Admin login(String aname, String apwd, HttpServletRequest request);
 
     /**
-     * 通过等级查询所有的管理员
-     * @param grade
-     * @return 所有的管理员
+     * 通过级别查询小于该级别的所有的管理员
+     * @param grade 管理员级别
+     * @return 管理员集合
      */
     List<Admin> findAll(int grade);
+
+
+    void delete(int id);
+
+    void add(Admin admin);
+    Admin findById(int id);
+    void update(Admin admin);
+    Admin findByAname(String aname);
 }

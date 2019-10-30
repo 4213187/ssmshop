@@ -19,21 +19,24 @@
     <!-- 支持上传文件 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
-<!--    &lt;!&ndash; 拦截器的配置 &ndash;&gt;-->
-<!--    <mvc:interceptors>-->
+    <!--    &lt;!&ndash; 拦截器的配置 &ndash;&gt;-->
+    <!--    <mvc:interceptors>-->
 
-<!--        <mvc:interceptor>-->
-<!--            &lt;!&ndash; /**：包括路径及其子路径-->
-<!--                如果是/admin/*-拦截的是/admin/add,/admin/list,/admin/user/add不会被拦截-->
-<!--                如果是/**-以上所有均被拦截-->
-<!--            &ndash;&gt;-->
+    <!--        <mvc:interceptor>-->
+    <!--            &lt;!&ndash; /**：包括路径及其子路径-->
+    <!--                如果是/admin/*-拦截的是/admin/add,/admin/list,/admin/user/add不会被拦截-->
+    <!--                如果是/**-以上所有均被拦截-->
+    <!--            &ndash;&gt;-->
 
-<!--            <mvc:mapping path="/**"/>-->
-<!--            <bean class="cn.bikan8.Interceptor.LoginInterceptor"></bean>-->
-<!--        </mvc:interceptor>-->
+    <!--            <mvc:mapping path="/**"/>-->
+    <!--            <bean class="cn.bikan8.Interceptor.LoginInterceptor"></bean>-->
+    <!--        </mvc:interceptor>-->
 
 
-<!--    </mvc:interceptors>-->
+    <!--    </mvc:interceptors>-->
+
+    <mvc:annotation-driven />
+    <mvc:default-servlet-handler/>
 
 
     <!-- 配置Json转换器 -->
@@ -54,13 +57,14 @@
         </property>
     </bean>
 
-    <!--     配置渲染器 -->
-    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <!-- 结果视图的前缀 -->
-        <property name="prefix" value="/WEB-INF/jsp/"/>
-        <!-- 结果视图的后缀 -->
-        <property name="suffix" value=".jsp"/>
-    </bean>
+<!--    &lt;!&ndash;     配置渲染器 &ndash;&gt;-->
+<!--    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+<!--        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>-->
+<!--        &lt;!&ndash; 结果视图的前缀 &ndash;&gt;-->
+<!--        <property name="prefix" value="/"/>-->
+<!--        &lt;!&ndash; 结果视图的后缀 &ndash;&gt;-->
+<!--        <property name="suffix" value=".jsp"/>-->
+<!--    </bean>-->
+
 
 </beans>
