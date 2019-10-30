@@ -34,7 +34,7 @@
             <div class="row">
                 <div class="span12">
                     <h4 class="header">添加管理员</h4>
-                    <form id="addForm" action="AdminServlet?method=add" method="post">
+                    <form id="addForm" action="admin.add" method="post">
                         <table class="table table-striped sortable">
                             <thead>
                             </thead>
@@ -108,7 +108,7 @@
 
             $.ajax({
                 type: "post",
-                url: "AdminServlet?method=findByAname",
+                url: "admin.findByAname",
                 data: "aname=" + $("#aname").val(),
                 // async:false,
                 success: function (msg) {

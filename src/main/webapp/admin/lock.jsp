@@ -27,7 +27,7 @@
         <h4>解锁</h4>
 
         <div class="form-group">
-            <form action="AdminServlet?method=unlock" method="post">
+            <form action="admin.unlock" method="post">
 
                 <input type="text" value="${aname}" name="aname" hidden class="form-control"/>
                 <input type="password" class="form-control" name="apwd"/> ${msg}

@@ -2,6 +2,8 @@ package cn.bikan8.service;
 
 
 import cn.bikan8.entity.Admin;
+import cn.bikan8.entity.OperationData;
+import cn.bikan8.entity.OperationLog;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -27,10 +29,14 @@ public interface AdminService {
     List<Admin> findAll(int grade);
 
 
-    void delete(int id);
 
-    void add(Admin admin);
+
+    void add(Admin admin, OperationLog operationLog);
     Admin findById(int id);
-    void update(Admin admin);
+    void update(Admin admin,OperationLog operationLog, OperationData operationData );
     Admin findByAname(String aname);
+
+    void delete(int id, OperationData operationData, OperationLog operationLog);
+
+    void update(Admin admin);
 }

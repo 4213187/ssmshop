@@ -34,7 +34,7 @@
                 <ul>
                     <li><a href="index.jsp" class="active"><i
                             class="batch home"></i><br />主页</a></li>
-                    <li><a   href="AdminServlet?method=findAll"><i class="batch stream"></i><br />管理员列表</a></li>
+                    <li><a   href="admin.findAll"><i class="batch stream"></i><br />管理员列表</a></li>
                     <li><a href="UserServlet?method=findAll"><i class="batch users"></i><br />用户列表</a></li>
                     <li><a href="category_list.jsp"><i class="batch forms"></i><br />类别列表</a></li>
                     <li><a href="products.html"><i class="batch quill"></i><br />商品列表</a></li>

@@ -37,7 +37,7 @@
     <script>
         function logout() {
             if (confirm('确认要注销么？')) {
-                window.location.href = "AdminServlet?method=logout";
+                window.location.href = "admin.logout";
 
             }
         }
@@ -61,7 +61,7 @@
                             ${admin.aname} <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="AdminServlet?method=lock&aname=${admin.aname}" onclick="lock()">锁屏</a></li>
+                            <li><a href="admin.lock?aname=${admin.aname}" onclick="lock()">锁屏</a></li>
                             <li><a href="javascript:void(0);" onclick="logout()">退出</a></li>
 
                         </ul>
@@ -86,7 +86,7 @@
                     <c:if test="${admin.grade<=2}">
                         <li>
 <%--                            <span class="label label-important pull-right">08</span>--%>
-                            <a   href="AdminServlet?method=findAll"><i class="batch stream"></i><br/>管理员列表</a></li>
+                            <a   href="admin.findAll"><i class="batch stream"></i><br/>管理员列表</a></li>
                     </c:if>
 
                     <li><a href="UserServlet?method=findAll"><i class="batch users"></i><br/>用户列表</a></li>

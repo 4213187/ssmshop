@@ -73,8 +73,8 @@
 												<span class="caret"></span>
 											</button>
 											<ul class="dropdown-menu">
-												<li> <a href="AdminServlet?method=toupdate&id=${admin.id}">修改</a> <a
-													href="AdminServlet?method=delete&id=${admin.id}">删除</a></li>
+												<li> <a href="admin.toupdate?id=${admin.id}">修改</a> <a
+													href="admin.delete?id=${admin.id}">删除</a></li>
 											</ul>
 										</div>
 									</td>

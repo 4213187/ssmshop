@@ -1,11 +1,14 @@
 package cn.bikan8.service.impl;
 
 
-
 import cn.bikan8.entity.Admin;
 import cn.bikan8.entity.AdminLog;
+import cn.bikan8.entity.OperationData;
+import cn.bikan8.entity.OperationLog;
 import cn.bikan8.mapper.AdminLogMapper;
 import cn.bikan8.mapper.AdminMapper;
+import cn.bikan8.mapper.OperationDataMapper;
+import cn.bikan8.mapper.OperationLogMapper;
 import cn.bikan8.service.AdminService;
 import cn.bikan8.util.IpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,26 +19,33 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
 /**
  * @author lenovo
  */
 @Service
+
 public class AdminServiceImpl implements AdminService {
 
     @Autowired
     AdminMapper adminMapper;
     @Autowired
     AdminLogMapper adminLogMapper;
+    @Autowired
+    OperationLogMapper operationLogMapper;
+    @Autowired
+    OperationDataMapper operationDataMapper;
+
     public AdminServiceImpl() {
 
     }
 
 
     @Override
-    @Transactional(rollbackFor=RuntimeException.class)
-    public Admin login(String aname, String apwd , HttpServletRequest request) {
+    @Transactional(rollbackFor = RuntimeException.class)
+    public Admin login(String aname, String apwd, HttpServletRequest request) {
 
-        Admin admin = adminMapper.find(aname,apwd);
+        Admin admin = adminMapper.find(aname, apwd);
         if (admin != null) {
             AdminLog adminLog = new AdminLog();
             adminLog.setAname(admin.getAname());
@@ -54,15 +64,12 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.findAll(grade);
     }
 
-    @Override
-    public void delete(int id) {
-        adminMapper.delete(id);
-
-    }
 
     @Override
-    public void add(Admin admin) {
-         adminMapper.add(admin);
+    public void add(Admin admin, OperationLog operationLog) {
+
+        operationLogMapper.add(operationLog);
+        adminMapper.add(admin);
 
     }
 
@@ -72,15 +79,35 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void update(Admin admin) {
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void update(Admin admin, OperationLog operationLog ,OperationData operationData ) {
+        operationDataMapper.add(operationData);
         adminMapper.update(admin);
+        operationLogMapper.add(operationLog);
 
+    }
 
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void update(Admin admin) {
+
+        adminMapper.update(admin);
     }
 
     @Override
     public Admin findByAname(String aname) {
         return adminMapper.findByAname(aname);
     }
+
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void delete(int id, OperationData operationData, OperationLog operationLog) {
+        operationDataMapper.add(operationData);
+        adminMapper.delete(id);
+        operationLogMapper.add(operationLog);
+    }
+
+
 
 }
