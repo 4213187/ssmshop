@@ -92,24 +92,9 @@ public class AdminController {
         HttpSession session = request.getSession();
         Admin Admin = (Admin) session.getAttribute("admin");
         Admin admin = adminService.findById(id);
-        //           添加删除之前的数据保存到数据表
-        OperationData operationData = new OperationData();
-        operationData.setUuid(UUIDUtil.getUUID());
-        operationData.setAdminId(admin.getId());
-        operationData.setAdminAname(admin.getAname());
-        operationData.setAdminApwd(admin.getApwd());
-        operationData.setAdminDisabled(admin.getDisabled());
-        operationData.setAdminGrade(admin.getGrade());
-        //          添加删除日志到日志表
-        OperationLog operationLog = new OperationLog();
-        operationLog.setUuid(operationData.getUuid());
-        operationLog.setOperator(Admin.getAname());
-        operationLog.setObject(admin.getAname());
-        operationLog.setIp(IpUtil.getIpAddress(request));
-        operationLog.setContent("删除了一个账号为:" + admin.getAname() + "的管理员");
-        operationLog.setType("删除管理员");
+
         //          删除操作
-        adminService.delete(id, operationData, operationLog);
+        adminService.delete( request, Admin,admin);
         return "redirect:admin.findAll";
 
 
@@ -124,26 +109,17 @@ public class AdminController {
         admin.setApwd(apwd);
         admin.setGrade(grade);
         admin.setDisabled(0);
-        //          添加增加日志到日志表
-        OperationLog operationLog = new OperationLog();
-        operationLog.setUuid(UUIDUtil.getUUID());
-        operationLog.setType("增加管理员");
-        operationLog.setContent("增加了一个账号为:" + admin.getAname() + "的管理员");
-        operationLog.setIp(IpUtil.getIpAddress(request));
-        operationLog.setObject(admin.getAname());
-        operationLog.setOperator(Admin.getAname());
-//      添加操作
-        adminService.add(admin, operationLog);
-        System.out.println(admin);
 
-        System.out.println(operationLog);
+//      添加操作
+        adminService.add(admin, Admin,request);
+
         return "redirect:admin.findAll";
 
 
     }
 
     @RequestMapping("/admin/admin.toupdate")
-    public String toupdate(int id, ModelMap map) {
+    public String toUpdate(int id, ModelMap map) {
 
         Admin admin1 = adminService.findById(id);
         map.addAttribute("admin1", admin1);
@@ -155,30 +131,14 @@ public class AdminController {
 
         HttpSession session = request.getSession();
         Admin Admin = (Admin) session.getAttribute("admin");
-        Admin admin = adminService.findById(id);
-//      保存更新前的数据到 操作数据表
-        OperationData operationData = new OperationData();
-        operationData.setUuid(UUIDUtil.getUUID());
-        operationData.setAdminId(admin.getId());
-        operationData.setAdminAname(admin.getAname());
-        operationData.setAdminApwd(admin.getApwd());
-        operationData.setAdminDisabled(admin.getDisabled());
-        operationData.setAdminGrade(admin.getGrade());
-
-        //     添加更新日志 到 操作日志表
-        OperationLog operationLog = new OperationLog();
-        operationLog.setOperator(Admin.getAname());
-        operationLog.setObject(admin.getAname());
-        operationLog.setType("修改管理员");
-        operationLog.setContent("对管理员" + admin.getAname() + "进行了修改");
-        operationLog.setIp(IpUtil.getIpAddress(request));
-        operationLog.setUuid(operationData.getUuid());
+        Admin beforeAdmin = adminService.findById(id);
+        Admin  afterAdmin = beforeAdmin;
 
 //      拿到前台要更新的数据
-        admin.setApwd(newpwd);
-        admin.setGrade(grade);
-        admin.setDisabled(disabled);
-        adminService.update(admin, operationLog, operationData);
+        afterAdmin.setApwd(newpwd);
+        afterAdmin.setGrade(grade);
+        afterAdmin.setDisabled(disabled);
+        adminService.update(beforeAdmin,afterAdmin, Admin, request);
 
         return "redirect:admin.findAll";
     }
