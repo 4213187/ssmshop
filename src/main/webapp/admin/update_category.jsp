@@ -32,7 +32,7 @@
 				<div class="row">
 					<div class="span12">
 						<h4 class="header">修改类别</h4>
-						<form action="CategoryServlet?method=update&id=${category.id}" method="post">
+						<form action="category.update?id=${category.id}" method="post">
 							<table class="table table-striped sortable">
 								<thead>
 								</thead>

@@ -33,7 +33,7 @@
     $(function () {
         $.ajax({
             type: "post",
-            url: "CategoryServlet?method=findAll",
+            url: "category.findAll",
             // dateType:'json',
             success: function (resp) {
                 var categories = eval(resp);
@@ -57,7 +57,7 @@
             if (c.grade == 3){
                 li ="";
             }else {
-                li ="<li><a href='CategoryServlet?method=toAddChildren&id="+c.id+"'  >添加子类别</a> ";
+                li ="<li><a href='category.toAddChildren?id="+c.id+"'  >添加子类别</a> ";
             }
             var tr = "<tr><td>" + c.id + "</td><td>" + str + c.name + "</td><td>" + c.descr + "</td><td>" + c.pid + "</td><td>" + (c.leaf == 1 ? "是" : "否") + "</td><td>" + c.grade + "</td>" +
                 " <td> " +
@@ -69,7 +69,7 @@
                      "<ul class='dropdown-menu'> " +
 
                         li +
-                        "<li><a href='CategoryServlet?method=toupdate&id="+c.id+"'>修改</a> " +
+                        "<li><a href='category.toupdate?id="+c.id+"'>修改</a> " +
                         "<li><a href='#'>删除</a> " +
                       "</ul> " +
                   "</div> " +

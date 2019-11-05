@@ -7,6 +7,7 @@ import cn.bikan8.mapper.AdminLogMapper;
 import cn.bikan8.service.AdminLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Service
@@ -18,11 +19,10 @@ public class AdminLogServiceImpl implements AdminLogService {
 
     }
 
-    public AdminLogServiceImpl(AdminLogMapper adminLogMapper) {
-        this.adminLogMapper = adminLogMapper;
-    }
+
 
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public void add(AdminLog adminLog) {
 
         adminLogMapper.add(adminLog);

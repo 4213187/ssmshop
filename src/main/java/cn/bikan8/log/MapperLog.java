@@ -37,23 +37,42 @@ package cn.bikan8.log;
 */
 
 
-import java.lang.reflect.Method;
-import org.springframework.aop.MethodBeforeAdvice;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
-/**
- * 切面Log类实现前置通知接口MethodBeforeAdvice
- * @author 王铭远
- *
- */
-public class Log implements MethodBeforeAdvice{
-    /**
-     * @param method 被执行的方法对象
-     * @param args 方法的参数
-     * @param target 被代理的目标对象
-     */
-    @Override
-    public void before(Method method, Object[] args, Object target) throws Throwable {
-        //通知逻辑
-        System.out.println(target.getClass().getName()+"的"+method.getName()+"方法被执行");
+import javax.servlet.http.HttpServletRequest;
+
+
+@Aspect
+@Component
+public class MapperLog {
+    @Pointcut("execution(public * cn.bikan8.mapper.*.*(..))")
+
+    public void webLog(){}
+
+
+
+    @Before("webLog()")
+    public void deBefore(JoinPoint joinPoint) throws Throwable {
+        // 接收到请求，记录请求内容
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        // 记录下请求内容
+
+        System.out.println("DAO层执行方法 : "  + joinPoint.getSignature().getDeclaringTypeName()+"."+joinPoint.getSignature().getName());
+
+
+    }
+
+    @AfterReturning(returning = "ret", pointcut = "webLog()")
+    public void doAfterReturning(Object ret) throws Throwable {
+        // 处理完请求，返回内容
+        System.out.println("DAO层方法执行返回值 : " + ret);
     }
 }

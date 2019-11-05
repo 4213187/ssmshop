@@ -132,7 +132,7 @@ public class AdminController {
         HttpSession session = request.getSession();
         Admin Admin = (Admin) session.getAttribute("admin");
         Admin beforeAdmin = adminService.findById(id);
-        Admin  afterAdmin = beforeAdmin;
+        Admin  afterAdmin = adminService.findById(id);
 
 //      拿到前台要更新的数据
         afterAdmin.setApwd(newpwd);

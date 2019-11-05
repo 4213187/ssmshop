@@ -36,7 +36,7 @@ textarea {
 				<div class="row">
 					<div class="span12">
 						<h4 class="header">添加子类别</h4>
-						<form method="post" action="CategoryServlet?method=addChildren&pid=${category.id}&grade=${category.grade}">
+						<form method="post" action="category.addChildren?pid=${category.id}&grade=${category.grade}">
 							
 							<table class="table table-striped sortable">
 								<thead>

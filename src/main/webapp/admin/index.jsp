@@ -120,7 +120,7 @@
                                 <ul>
                                     <li><a href="update_person.jsp"> <i
                                             class="pull-right icon-signal"></i>修改信息
-                                    </a><a href="AdminLogServlet?method=findByAname&aname=${admin.aname}"> <i class="pull-right icon-fire"></i>登陆记录
+                                    </a><a href="admin.findLogByAname?aname=${admin.aname}"> <i class="pull-right icon-fire"></i>登陆记录
                                     </a></li>
                                 </ul>
                             </li>
@@ -132,18 +132,18 @@
                                 </a></li>
                                 <li id="admin" class="collapse">
                                     <ul>
-                                        <li><a href="AdminServlet?method=findAll"> <i
+                                        <li><a href="admin.findAll"> <i
                                                 class="pull-right icon-signal"></i>管理员列表
                                         </a>
                                     </ul>
                                     <c:if test="${admin.grade==1}">
                                         <ul>
-                                            <li><a href="AdminLogServlet?method=findAllLog"> <i
+                                            <li><a href="admin.findAllLog"> <i
                                                     class="pull-right icon-signal"></i>管理员登陆日志
                                             </a>
                                         </ul>
                                         <ul>
-                                            <li><a href="OperationLogServlet?method=findAllOperationLog"> <i
+                                            <li><a href="admin.findAllOperationLog"> <i
                                                     class="pull-right icon-signal"></i>管理员操作日志
                                             </a>
                                         </ul>

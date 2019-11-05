@@ -61,7 +61,7 @@
 									<td>${log.ip}</td>
 									<c:if test="${log.status==0}">
 										<td>已提交</td>
-										<td><a id="rollback" class="btn btn-danger" href="OperationDataServlet?method=rollback&uuid=${log.uuid}"   >回滚</a></td>
+										<td><a id="rollback" class="btn btn-danger" href="admin.rollback?uuid=${log.uuid}"   >回滚</a></td>
 									</c:if>
 									<c:if test="${log.status==1}">
 										<td>已回滚</td>

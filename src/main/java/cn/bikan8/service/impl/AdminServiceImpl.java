@@ -25,7 +25,6 @@ import java.util.List;
  * @author lenovo
  */
 @Service
-
 public class AdminServiceImpl implements AdminService {
 
     @Autowired

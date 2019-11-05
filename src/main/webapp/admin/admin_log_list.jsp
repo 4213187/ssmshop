@@ -89,7 +89,7 @@
 					<h3>新建管理员</h3>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal" action="AdminServlet?method=add" method="post" />
+					<form class="form-horizontal" action="admin.add" method="post" />
 					<div class="control-group">
 						<label for="inputEmail" class="control-label">账号</label>
 						<div class="controls">

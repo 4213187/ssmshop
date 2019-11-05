@@ -32,7 +32,7 @@
 				<div class="row">
 					<div class="span12">
 						<h4 class="header">添加根类别</h4>
-						<form action="CategoryServlet?method=addRoot" method="post">
+						<form action="category.addRoot" method="post">
 							<table class="table table-striped sortable">
 								<thead>
 								</thead>

@@ -6,6 +6,7 @@ import cn.bikan8.mapper.CategoryMapper;
 import cn.bikan8.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,12 +29,16 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public void addRoot(Category category) {
         categoryMapper.addRoot(category);
     }
 
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public void addChild(Category category) {
+        // 修改父类为非叶子结点
+        categoryMapper.updateLeafById(category.getPid());
         categoryMapper.addChild(category);
     }
 
