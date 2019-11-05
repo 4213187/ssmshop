@@ -91,8 +91,8 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><a href="UserServlet?method=resetPassword&id=${user.id}">重置密码</a>
-                                            <li><a href="UserServlet?method=toUpdate&id=${user.id}">修改信息</a>
+                                            <li><a href="user.resetPassword?id=${user.id}">重置密码</a>
+                                            <li><a href="user.toUpdate?id=${user.id}">修改信息</a>
                                         </ul>
                                     </div>
                                 </td>

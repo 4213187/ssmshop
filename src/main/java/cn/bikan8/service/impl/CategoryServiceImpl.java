@@ -48,11 +48,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public void updateLeafById(int id) {
         categoryMapper.updateLeafById(id);
     }
 
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public void updateInfo(Category category) {
         categoryMapper.updateInfo(category);
     }

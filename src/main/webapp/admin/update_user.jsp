@@ -64,7 +64,7 @@
             <div class="row">
                 <div class="span12">
                     <h4 class="header">修改用户信息</h4>
-                    <form action="UserServlet?method=updateInfo&id=${user.id}" method="post" id="updateForm">
+                    <form action="user.updateInfo?id=${user.id}" method="post" id="updateForm">
                         <table class="table table-striped sortable">
                             <thead>
                             </thead>
